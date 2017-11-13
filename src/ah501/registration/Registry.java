@@ -15,33 +15,39 @@ import java.io.Serializable;
 public class Registry {
 	
 	private Map<Integer, String> register;
-	
+
+	//constructor
 	public Registry( ) {
 		register = new HashMap<Integer, String>();
-		this.initialise();
+		fetchUserInformation(register);
 	}
 	
-	private void initialise() {
-		
-		
+	public String toString() {
+		return register.toString();
 	}
 	
-
+	// adds new user to map and to file, granted their input matches validator() criteria
 	public void addUser(User newUser) {
-		
-		
+	
+	if(validator(newUser)) {
+		getRegister().put(newUser.getUserId(), newUser.getUsername());
+		saveUserInformation(newUser);
+		System.out.println("User registered successfully.");
+	}
 		
 	}
 	
 	// this adds the last created user's data to file storage
-	public void saveUserInformation(User user) {
-		OutputStream ops = null;
-        ObjectOutputStream objOps = null;
+	private void saveUserInformation(User user) {
+		OutputStream output = null;
+        ObjectOutputStream objOut = null;
         try {
-            ops = new FileOutputStream("UserData.txt");
-            objOps = new ObjectOutputStream(ops);
-            objOps.writeObject(user);
-            objOps.flush();
+            output = new FileOutputStream("UserData");
+            objOut = new ObjectOutputStream(output);
+            objOut.writeObject(user);
+            
+            objOut.flush();
+            
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -50,15 +56,58 @@ public class Registry {
         
         finally {
             	try {
-            		if(objOps != null) objOps.close();
+            		if(objOut != null) objOut.close();
             	} catch (Exception ex) {
                  ex.printStackTrace();
             }
         }
 	}
 	
+	// this loads the current data from the user data file into the map
+	private void fetchUserInformation(Map<Integer, String> map) {
+		
+		boolean done = false;
+		InputStream fileInput = null;
+        ObjectInputStream objInStream = null;
+        
+        try {
+            fileInput = new FileInputStream("UserData");
+            objInStream = new ObjectInputStream(fileInput);
+          
+           // as long as there are objects left in the file, read them
+          while(!done)  {
+        	  User u = null;
+        	  
+        	 try {
+        		 u = (User) objInStream.readObject();
+        	 } catch (ClassNotFoundException e) {
+                 e.printStackTrace();
+             } 
+        	 
+        	 // if the user is not null, add it to the map
+        	 if(u != null) {
+        		 map.put(u.getUserId(), u.getUsername());
+        	 } else done = true;
+        	 
+          }    
+          // end while loop
+            
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if(objInStream != null) objInStream.close();
+            } catch (Exception ex){
+                 ex.printStackTrace();
+            }
+        }
+		
+	}
 	
-// basic validation of user input	
+	
+	// basic validation of user input	
 	public boolean validator(User newUser) {
 		
 		if(newUser.getFirstName() == "" || newUser.getLastName() == "" || newUser.getEmail() == "") {
@@ -71,16 +120,20 @@ public class Registry {
 			return false;
 		}
 		
-		if(newUser.getAge() < 0) {
-			System.out.println("Please enter a valid age.");
-			return false;
-		}
-		
-		
 		return true;
 	}
 	
+	// getters + setters
 	
+	public Map<Integer, String> getRegister() {
+		return register;
+	}
+
+
+	public void setRegister(Map<Integer, String> register) {
+		this.register = register;
+	}
+
 	
 	
 
