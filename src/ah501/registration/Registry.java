@@ -72,7 +72,7 @@ public class Registry {
         
         try {
             fileInput = new FileInputStream(System.getProperty("user.dir")+"\\src\\files\\UserData.data");
-            objInStream = new ObjectInputStream(fileInput);
+				objInStream = new ObjectInputStream(fileInput);
           
            // as long as there are objects left in the file, read them
           while(proceed){
@@ -98,7 +98,10 @@ public class Registry {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
+
+        }
+
+        finally {
             try {
                 if(objInStream != null) objInStream.close();
             } catch (Exception ex){

@@ -20,8 +20,8 @@ public class UserTest {
 		User u1 = new User("ah501", "A", "Hayhurst", "a@example.com", "aaaa");
 		User u2 = new User("abc123", "Jon", "Java", "j@example.com", "jjjj");
 		
-		reg.addUser(u1);
-		reg.addUser(u2);	
+		//reg.addUser(u1);
+		//reg.addUser(u2);
 		
 		System.out.println(reg.toString());
 			
