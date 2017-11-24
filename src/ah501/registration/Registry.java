@@ -21,6 +21,8 @@ public class Registry {
 	public Registry( ) {
 		register = new HashMap<Integer, String>();
 		fetchUserInformation(register);
+		User.receiveLatestId();
+
 	}
 	
 	public String toString() {
@@ -30,7 +32,7 @@ public class Registry {
 	// adds new user to map and to file, granted their input matches validator() criteria
 	public void addUser(User newUser) {
 	
-	if(validator(newUser)) {
+	if(register(newUser)) {
 		this.getRegister().put(newUser.getUserId(), newUser.getUsername());
 		saveUserInformation(newUser);
 		System.out.println("User registered successfully.");
@@ -71,7 +73,7 @@ public class Registry {
         ObjectInputStream objInStream = null;
         
         try {
-            fileInput = new FileInputStream(System.getProperty("user.dir")+"\\src\\files\\UserData.data");
+            fileInput = new FileInputStream(".\\src\\files\\UserData.data");
 				objInStream = new ObjectInputStream(fileInput);
           
            // as long as there are objects left in the file, read them
@@ -113,9 +115,9 @@ public class Registry {
 	
 	
 	// basic validation of user input	
-	public boolean validator(User newUser) {
+	public boolean register(User newUser) {
 		
-		if(newUser.getFirstName() == "" || newUser.getLastName() == "" || newUser.getEmail() == "") {
+		if(newUser.getName() == "" || newUser.getEmail() == "") {
 			System.out.println("Please fill in all required information.");
 			return false;
 		}

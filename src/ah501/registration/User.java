@@ -1,46 +1,73 @@
 package ah501.registration;
 
-import java.io.Serializable;
+import java.io.*;
 
 public class User implements Serializable {
 	
 	//attributes
+	//files/UserData.data
 	private static int lastId = 100006;
-	private String username, firstName,lastName,email, password;
+	private String username, name, email, password;
 	private int userId;
-	
-	
+
+
 
 	//constructors
-	public User(String u, String f, String e, String p) {
+	public User(String u, String n, String e, String p) {
 		username = u;
-		firstName = f;
+		name = n;
 		email = e;
 		password = p;
 		
 		userId = getLastId();
 		setLastId();
 	}
-	
-	public User(String u, String f, String l, String e, String p) {
-		username = u;
-		firstName = f;
-		lastName = l;
-		email = e;
-		password = p;
-		
-		userId = getLastId();
-		setLastId();
-	}
-	
-	
-	
+
 	
 	//id management
 	
 	//this method looks for the last id number in the file containing the user data
-	public int receiveLatestId() {
-		return 0;
+	public static void receiveLatestId() {
+		boolean proceed = true;
+		int n = 0;
+		InputStream fileInput = null;
+		ObjectInputStream objInStream = null;
+
+		try {
+			fileInput = new FileInputStream(".\\src\\files\\UserData.data");
+			objInStream = new ObjectInputStream(fileInput);
+
+			while(proceed){
+				User u = null;
+				try {
+					u = (User) objInStream.readObject();
+
+					//if the id belonging to this user is greater than the last, n becomes the new higher value
+					if(u != null) {
+
+						if(u.getUserId() > n){
+							n = u.getUserId();
+						}
+
+					} else proceed = false;
+
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				} catch (EOFException e) {
+					break;
+				}
+			}
+			// end while loop
+
+		}
+			catch (FileNotFoundException e) {
+				e.printStackTrace(); }
+			catch (IOException e) {
+				e.printStackTrace(); }
+
+		if(n == 0){
+			lastId = 100006;
+		} else lastId = n;
 	}
 	
 	public int getLastId() {
@@ -67,21 +94,7 @@ public class User implements Serializable {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public String getFirstName() {
-		return firstName;
-	}
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-	public String getLastName() {
-		return lastName;
-	}
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-	public String getEmail() {
-		return email;
-	}
+	public String getEmail() { return email; }
 	public void setEmail(String email) {
 		this.email = email;
 	}
@@ -91,15 +104,8 @@ public class User implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public int getAge() {
-		return age;
-	}
-	public void setAge(int age) {
-		this.age = age;
-	}
-	private int age;
-	
-	
+	public String getName() { return name; }
+	public void setName(String name) { this.name = name; }
 	
 	
 }

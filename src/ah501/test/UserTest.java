@@ -12,8 +12,8 @@ public class UserTest {
 	
 	public static void main(String[] args) {
 		
-		File file = new File("\\files\\Example");
-		System.out.println(System.getProperty("user.dir"));
+		//String filepath = new File(".\\src\\files\\UserData.data").getAbsolutePath();
+		//System.out.println(filepath);
 		
 		Registry reg = new Registry();
 		

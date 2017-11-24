@@ -1,6 +1,6 @@
 package ah501.application;
 
-public class Main {
+public class MovieFinder {
 
 	public static void main(String[] args) {
 	
