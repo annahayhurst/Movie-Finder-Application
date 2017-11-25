@@ -4,23 +4,22 @@ import java.io.*;
 import java.util.ArrayList;
 
 
-public class MovieIO {
+public class MovieIO implements Symbols{
 
-    private static final String COM = ",";
-    private static final String NL = "\n";
+
 
 //read from CSV file and return a usable array list of ratings.
-    public ArrayList<Rating> readRating(String fName) {
+    public static ArrayList<Rating> readRating() {
         BufferedReader reader = null;
         ArrayList<Rating> ratings = new ArrayList<Rating>();
 
         try {
-            reader = new BufferedReader(new FileReader(fName));
+            reader = new BufferedReader(new FileReader("./src/files/ratings.csv"));
             String line = "";
             reader.readLine();
 
             while ((line = reader.readLine()) != null) {
-                String[] tokens = line.split(COM);
+                String[] tokens = line.split(COMMA);
                 if (tokens.length > 0) {
 
                     try {
@@ -49,6 +48,9 @@ public class MovieIO {
                 reader.close();
             } catch(IOException io) {
                 System.out.println("Error occurred while closing reader.");
+            } catch (NullPointerException npe) {
+                System.out.println("Null pointer exception occurred while attempting to flush or close.");
+                npe.printStackTrace();
             }
         }
 
@@ -56,20 +58,102 @@ public class MovieIO {
     }
 
     //write to CSV file
-    public static  void writeRating(String fileName, Rating r) {
+    public static  void writeRating(Rating r) {
 
         FileWriter writer = null;
 
         try {
-            writer = new FileWriter(fileName, true);
+            writer = new FileWriter("./src/files/ratings.csv");
             //Write the new ratings into the CSV file
 
                 writer.append(String.valueOf(r.getUserId()));
-                writer.append(COM);
+                writer.append(COMMA);
                 writer.append(String.valueOf(r.getMovieId()));
-                writer.append(COM);
+                writer.append(COMMA);
                 writer.append(String.valueOf(r.getRating()));
-                writer.append(NL);
+                writer.append(NEWLINE);
+
+        } catch(FileNotFoundException fnf) {
+            System.out.println("File not found at specified path.");
+        } catch(IOException io) {
+            System.out.println("Error occurred with I/O.");
+            io.printStackTrace();
+        } finally {
+            try {
+                writer.flush();
+                writer.close();
+            }catch (NullPointerException npe) {
+                System.out.println("Null pointer exception occurred while attempting to flush or close.");
+                npe.printStackTrace();
+            } catch (IOException e) {
+                System.out.println("Error while flushing/closing file writer.");
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    public static ArrayList<Movie> readMovie() {
+        BufferedReader reader = null;
+        ArrayList<Movie> movies = new ArrayList<Movie>();
+
+        try {
+            reader = new BufferedReader(new FileReader("./src/files/MovieData.csv"));
+            String line = "";
+            reader.readLine();
+
+            while ((line = reader.readLine()) != null) {
+                String[] tokens = line.split(COMMA);
+                if (tokens.length > 0) {
+
+                    try {
+                        int id = Integer.parseInt(tokens[0]);
+                        String name = (tokens[1]);
+                        String genres = (tokens[2]);
+                        Movie m = new Movie(id, name, genres);
+                        movies.add(m);
+
+                    } catch (NumberFormatException nfe) {
+                        System.out.println("Parsed id value was not an integer.");
+                        break;
+                    }
+                }
+            }
+
+        } catch (EOFException eof) {
+            System.out.println("Reached end of file, exiting.");
+        } catch (FileNotFoundException fnf) {
+            System.out.println("File not found at specified path.");
+        } catch (IOException io) {
+            System.out.println("Error occurred with I/O.");
+            io.printStackTrace();
+        } finally {
+            try {
+                reader.close();
+            } catch (IOException io) {
+                System.out.println("Error occurred while closing reader.");
+            } catch (NullPointerException npe) {
+                System.out.println("Null pointer exception occurred while attempting to flush or close.");
+                npe.printStackTrace();
+            }
+        }
+    return movies;
+    }
+
+    public static void writeMovie(Movie m) {
+
+        FileWriter writer = null;
+
+        try {
+            writer = new FileWriter("./src/files/ratings.csv");
+            //Write the new ratings into the CSV file
+
+            writer.append(String.valueOf(m.getMovieId()));
+            writer.append(COMMA);
+            writer.append(String.valueOf(m.getName()));
+            writer.append(COMMA);
+            writer.append(String.valueOf(m.getGenre()));
+            writer.append(NEWLINE);
 
         } catch(FileNotFoundException fnf) {
             System.out.println("File not found at specified path.");
@@ -81,12 +165,17 @@ public class MovieIO {
                 writer.flush();
                 writer.close();
             } catch (IOException e) {
-                System.out.println("Error while flushing/closing file writer.");
+                System.out.println("Error occurred while closing file writer.");
                 e.printStackTrace();
+            } catch (NullPointerException npe) {
+                System.out.println("Null pointer exception occurred while attempting to flush or close.");
+                npe.printStackTrace();
             }
 
         }
     }
+
+    /* rating fetch methods */
 
     //calculate initial avg. rating of a movie, by searching the list of movies for its id.
     public static double movieRate(int id) {
@@ -102,7 +191,7 @@ public class MovieIO {
 
             while ((line = reader.readLine()) != null) {
 
-                String[] tokens = line.split(COM);
+                String[] tokens = line.split(COMMA);
                 if (tokens.length > 0) {
 
                     try {
@@ -132,6 +221,9 @@ public class MovieIO {
                 reader.close();
             } catch(IOException io) {
                 System.out.println("Error occurred while closing reader.");
+            } catch (NullPointerException npe) {
+                System.out.println("Null pointer exception occurred while attempting to flush or close.");
+                npe.printStackTrace();
             }
         }
 
@@ -149,6 +241,58 @@ public class MovieIO {
         }
 
     }
+
+    public static int numberOfRatings(int id) {
+
+        BufferedReader reader = null;
+        int numberOfRatings = 0;
+
+        try {
+            reader = new BufferedReader(new FileReader("./src/files/ratings.csv"));
+            String line = "";
+            reader.readLine();
+
+            while ((line = reader.readLine()) != null) {
+
+                String[] tokens = line.split(COMMA);
+                if (tokens.length > 0) {
+
+                    try {
+
+                        //if the id in this line matches the passed id, add the relevant rating to the list
+                        if(Integer.parseInt(tokens[1]) == id);
+                        numberOfRatings++;
+
+                    } catch (NumberFormatException nfe) {
+                        System.out.println("Parsed value was not an integer or double.");
+                        break;
+                    }
+                }
+            }
+
+        } catch (EOFException eof) {
+            System.out.println("Reached end of file, exiting.");
+        } catch(FileNotFoundException fnf) {
+            System.out.println("File not found at specified path.");
+        } catch (IOException io) {
+            System.out.println("Error occurred with I/O.");
+            io.printStackTrace();
+        } finally {
+            try {
+                reader.close();
+            } catch(IOException io) {
+                System.out.println("Error occurred while closing reader.");
+            } catch (NullPointerException npe) {
+                System.out.println("Null pointer exception occurred while attempting to flush or close.");
+                npe.printStackTrace();
+            }
+        }
+
+            return numberOfRatings;
+
+
+    }
+
 
 
 }
