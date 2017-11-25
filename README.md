@@ -24,3 +24,9 @@ The end goal is to have a standalone application in the form of a JAR file that 
  (stored in files rather than a database).
  
  I will be adding commits to this repository as I make progress, and tagging releases when key components of functionality are completed.
+ 
+ ![alt text](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png "Creative Commons License")
+ 
+ This work is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License].
+ 
+ [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License]: http://creativecommons.org/licenses/by-nc-sa/4.0/
