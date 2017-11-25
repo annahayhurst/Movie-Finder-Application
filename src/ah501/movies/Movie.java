@@ -1,11 +1,48 @@
 package ah501.movies;
 
+
 public class Movie {
 
+
     private String name, genre;
+    private int movieId;
     private double aggregateRating;
 
-    public Movie(String n, String g) {
-    super();
+    public Movie(int id, String n, String g) {
+    this.name = n;
+    this.genre = g;
+    this.movieId = id;
     }
+
+
+
+    public void setAggregateRating() {
+        this.aggregateRating = MovieIO.movieRate(this.movieId);
+
+    }
+    
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public int getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(int movieId) {
+        this.movieId = movieId;
+    }
+
 }
