@@ -1,6 +1,7 @@
 package ah501.movies;
 
 import java.io.*;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 
@@ -57,13 +58,13 @@ public class MovieIO implements Symbols{
     return ratings;
     }
 
-    //write to CSV file
+    //write rating to CSV file
     public static  void writeRating(Rating r) {
 
         FileWriter writer = null;
 
         try {
-            writer = new FileWriter("./src/files/ratings.csv");
+            writer = new FileWriter("./src/files/ratings.csv", true);
             //Write the new ratings into the CSV file
 
                 writer.append(String.valueOf(r.getUserId()));
@@ -145,8 +146,7 @@ public class MovieIO implements Symbols{
         FileWriter writer = null;
 
         try {
-            writer = new FileWriter("./src/files/ratings.csv");
-            //Write the new ratings into the CSV file
+            writer = new FileWriter("./src/files/MovieData.csv", true);
 
             writer.append(String.valueOf(m.getMovieId()));
             writer.append(COMMA);
@@ -236,6 +236,7 @@ public class MovieIO implements Symbols{
         // if ratings were found, they are summed and divided by the number of ratings to find the mean average
         } else {
             double sum = 0;
+
             for(Double d : allRatings)
                 sum += d;
             return sum/numberOfRatings;

@@ -1,9 +1,8 @@
 package ah501.movies;
-import java.lang.reflect.Array;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
 
 public class MovieReg implements Symbols{
 
@@ -58,6 +57,20 @@ public class MovieReg implements Symbols{
         return searchResult;
     }
 
+    public Movie getById(int id) throws Exception {
+        Movie toFind = null;
+
+        for(int i = 0; i < movies.size(); i++) {
+            if(movies.get(i).getMovieId() == id){
+                toFind = movies.get(i);
+            }
+        }
+
+        if (toFind != null) {
+            return toFind;
+        } else throw new Exception("Could not find movie with that id in this registry.");
+    }
+
     //sorts movies by their names, using a Comparator that looks at the getName() method
     public void sort() {
         getMovies().sort(Comparator.comparing(Movie::getName));
@@ -77,9 +90,9 @@ public class MovieReg implements Symbols{
           if(m.getMovieId() == id) {
               double fullSum = m.getAggregateRating() * m.getNoRatings();
               fullSum+= nr;
-              nr++;
+              m.setNoRatings(m.getNoRatings()+ 1);
 
-              m.setAggregateRating(fullSum/nr);
+              m.setAggregateRating(fullSum/m.getNoRatings());
               break;
           }
         }
@@ -87,10 +100,11 @@ public class MovieReg implements Symbols{
 
     public String printRegistry(){
         StringBuilder toPrint = new StringBuilder();
+        DecimalFormat decimalFormat = new DecimalFormat("#.00");
 
         for(Movie m : movies) {
             toPrint.append("{Id: " + m.getMovieId() + ", Name: " + m.getName() + ", Genre(s): "
-                            + m.getGenre() + ", Avg. Rating: " + m.getAggregateRating() + "} | ");
+                            + m.getGenre() + ", Avg. Rating: " + decimalFormat.format( m.getAggregateRating() ) + "} | ");
         }
 
         return toPrint.toString();
