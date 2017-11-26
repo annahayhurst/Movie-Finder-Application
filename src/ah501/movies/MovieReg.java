@@ -13,6 +13,8 @@ public class MovieReg implements Symbols{
     public MovieReg() {
         ratings = MovieIO.readRating();
         movies = MovieIO.readMovie();
+
+        initialiseRatings();
     }
 
 
@@ -43,11 +45,6 @@ public class MovieReg implements Symbols{
         return searchResult;
     }
 
-    //sorts movies by their names, using a Comparator that looks at the getName() method
-    public void sort() {
-    getMovies().sort(Comparator.comparing(Movie::getName));
-    }
-
     //search for a movie, given a genre is entered to search for it
     public ArrayList<Movie> searchByGenre(String query) {
         ArrayList<Movie> searchResult = new ArrayList<Movie>();
@@ -61,7 +58,18 @@ public class MovieReg implements Symbols{
         return searchResult;
     }
 
+    //sorts movies by their names, using a Comparator that looks at the getName() method
+    public void sort() {
+        getMovies().sort(Comparator.comparing(Movie::getName));
+    }
 
+
+    public synchronized void initialiseRatings(){
+        for(Movie m : movies) {
+            m.setAggregateRating( MovieIO.movieRate (m.getMovieId()) );
+            m.setNoRatings( MovieIO.numberOfRatings (m.getMovieId()) );
+        }
+    }
     //recalculate average score without having to go back into file handling
     public void updateAggregateRating(int id, double nr) {
 
@@ -77,9 +85,20 @@ public class MovieReg implements Symbols{
         }
     }
 
+    public String printRegistry(){
+        StringBuilder toPrint = new StringBuilder();
+
+        for(Movie m : movies) {
+            toPrint.append("{ Id: " + m.getMovieId() + " Name :" + m.getName() + " Genre(s): "
+                            + m.getGenre() + " Avg. Rating: " + m.getAggregateRating() + " } |");
+        }
+
+        return toPrint.toString();
+    }
+
     @Override
     public String toString() {
-        return "MovieReg{" +
+        return "MovieReg {" +
                 "movies=" + movies +
                 ", ratings=" + ratings +
                 '}';

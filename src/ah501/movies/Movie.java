@@ -12,13 +12,9 @@ public class Movie {
     this.name = n;
     this.genre = g;
     this.movieId = id;
+    this.aggregateRating = 0;
     }
 
-    public void calculateAggregateRating() {
-        this.aggregateRating = MovieIO.movieRate(this.movieId);
-        this.noRatings = MovieIO.numberOfRatings(this.movieId);
-
-    }
 
     public String getName() {
         return name;

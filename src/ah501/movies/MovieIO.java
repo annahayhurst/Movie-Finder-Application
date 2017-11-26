@@ -197,10 +197,11 @@ public class MovieIO implements Symbols{
                     try {
 
                         //if the id in this line matches the passed id, add the relevant rating to the list
-                        if(Integer.parseInt(tokens[1]) == id);
-                        double r = Double.parseDouble(tokens[2]);
-                        allRatings.add(r);
-                        numberOfRatings++;
+                        if(Integer.parseInt(tokens[1]) == id) {
+                            double r = Double.parseDouble(tokens[2]);
+                            allRatings.add(r);
+                            numberOfRatings++;
+                        }
 
                     } catch (NumberFormatException nfe) {
                         System.out.println("Parsed value was not an integer or double.");

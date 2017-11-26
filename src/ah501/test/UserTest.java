@@ -17,8 +17,8 @@ public class UserTest {
 		
 		Registry reg = new Registry();
 		
-		User u1 = new User("ah501", "A", "Hayhurst", "a@example.com", "aaaa");
-		User u2 = new User("abc123", "Jon", "Java", "j@example.com", "jjjj");
+		User u1 = new User("aba111", "Abacus Alderly", "a@example.com", "aaaa");
+		User u2 = new User("abc123", "Jon Java", "j@example.com", "jjjj");
 		
 		//reg.addUser(u1);
 		//reg.addUser(u2);

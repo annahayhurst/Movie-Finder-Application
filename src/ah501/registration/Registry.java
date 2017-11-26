@@ -29,7 +29,7 @@ public class Registry {
 		return register.toString();
 	}
 	
-	// adds new user to map and to file, granted their input matches validator() criteria
+	// adds new user to map and to file, granted their input matches register(User) criteria
 	public void addUser(User newUser) {
 	
 	if(register(newUser)) {
