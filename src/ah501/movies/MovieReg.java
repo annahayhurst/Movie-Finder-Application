@@ -89,8 +89,8 @@ public class MovieReg implements Symbols{
         StringBuilder toPrint = new StringBuilder();
 
         for(Movie m : movies) {
-            toPrint.append("{ Id: " + m.getMovieId() + " Name :" + m.getName() + " Genre(s): "
-                            + m.getGenre() + " Avg. Rating: " + m.getAggregateRating() + " } |");
+            toPrint.append("{Id: " + m.getMovieId() + ", Name: " + m.getName() + ", Genre(s): "
+                            + m.getGenre() + ", Avg. Rating: " + m.getAggregateRating() + "} | ");
         }
 
         return toPrint.toString();
@@ -98,10 +98,8 @@ public class MovieReg implements Symbols{
 
     @Override
     public String toString() {
-        return "MovieReg {" +
-                "movies=" + movies +
-                ", ratings=" + ratings +
-                '}';
+        return "This movie registry contains [ " +
+                printRegistry() + " ]";
     }
 
     //getters and setters

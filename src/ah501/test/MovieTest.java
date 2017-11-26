@@ -7,8 +7,9 @@ public class MovieTest {
         //movie registry to test methods on
         MovieReg testReg = new MovieReg();
 
-        //System.out.println(testReg.printRegistry());
-        System.out.println(MovieIO.movieRate(2));
+        System.out.println(testReg.toString());
+        System.out.println("Average score of movie with ID 501: " + MovieIO.movieRate(501));
+        //System.out.println(MovieIO.movieRate(999999));
 
 
         //rating example, to test if calculator methods and writeRating() work

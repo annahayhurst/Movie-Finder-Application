@@ -231,7 +231,7 @@ public class MovieIO implements Symbols{
         // if no ratings could be fetched from the file...
         if (numberOfRatings == 0) {
             System.out.println("Could not calculate a rating for this movie.");
-            return -1;
+            return 0;
 
         // if ratings were found, they are summed and divided by the number of ratings to find the mean average
         } else {
