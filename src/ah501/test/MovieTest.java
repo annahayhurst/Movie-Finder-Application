@@ -30,7 +30,20 @@ public class MovieTest {
 
         //movie example, to test if a new movie can be added to the data file
         Movie testMovie = new Movie(99999, "My Movie", "Comedy");
-        //testReg.addNewMovie(testMovie);
+        testReg.addNewMovie(testMovie);
+
+        //test that sort method correctly reorders the registry alphabetically by name of film
+        testReg.sort();
+        System.out.println(testReg.toString());
+
+        //test that a new movie can be deleted from the list again
+        testReg.deleteMovie(99999);
+        System.out.println(testReg.toString());
+
+        //test that a new rating can be deleted from the list again
+        testReg.deleteRating(testRating);
+        //System.out.println(testReg.getRatings());
+
 
 
     }

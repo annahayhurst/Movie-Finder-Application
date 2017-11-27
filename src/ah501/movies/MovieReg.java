@@ -3,6 +3,7 @@ package ah501.movies;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Iterator;
 
 public class MovieReg implements Symbols{
 
@@ -98,6 +99,32 @@ public class MovieReg implements Symbols{
         }
     }
 
+    //a user can delete a movie they have added to the registry so it no longer appears in their UI
+    public void deleteMovie(int id) {
+        Iterator<Movie> movieIterator = getMovies().iterator();
+        while(movieIterator.hasNext()){
+            Movie next = movieIterator.next();
+
+            if (next.getMovieId() == id) {
+                movieIterator.remove();
+            }
+        }
+    }
+
+    //a user can delete a rating they have added for a movie so it no longer appears on their UI
+    public void deleteRating(Rating r) {
+        Iterator<Rating> ratingIterator = getRatings().iterator();
+        while(ratingIterator.hasNext()){
+            Rating next = ratingIterator.next();
+
+            if (next == r) {
+                ratingIterator.remove();
+            }
+        }
+    }
+
+
+    // methods for printing the contents of the registry for examination
     public String printRegistry(){
         StringBuilder toPrint = new StringBuilder();
         DecimalFormat decimalFormat = new DecimalFormat("#.00");

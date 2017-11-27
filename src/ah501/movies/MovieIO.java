@@ -9,7 +9,7 @@ public class MovieIO implements Symbols{
 
 
 
-//read from CSV file and return a usable array list of ratings.
+/* read and write ratings from/to the relevant CSV */
     public static ArrayList<Rating> readRating() {
         BufferedReader reader = null;
         ArrayList<Rating> ratings = new ArrayList<Rating>();
@@ -58,8 +58,7 @@ public class MovieIO implements Symbols{
     return ratings;
     }
 
-    //write rating to CSV file
-    public static  void writeRating(Rating r) {
+    public static void writeRating(Rating r) {
 
         FileWriter writer = null;
 
@@ -93,6 +92,8 @@ public class MovieIO implements Symbols{
 
         }
     }
+
+    /* read and write movies from/to the relevant CSV */
 
     public static ArrayList<Movie> readMovie() {
         BufferedReader reader = null;
@@ -140,6 +141,7 @@ public class MovieIO implements Symbols{
         }
     return movies;
     }
+
 
     public static void writeMovie(Movie m) {
 
@@ -244,6 +246,10 @@ public class MovieIO implements Symbols{
 
     }
 
+    /* store the number of ratings a given movie has, so that if a new rating is added this
+    information is available to recalculate the average
+     */
+
     public static int numberOfRatings(int id) {
 
         BufferedReader reader = null;
@@ -294,7 +300,5 @@ public class MovieIO implements Symbols{
 
 
     }
-
-
 
 }
