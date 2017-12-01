@@ -11,8 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" type="VBox" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="RegisterController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ah501.application.RegisterController">
    <children>
       <Pane prefHeight="94.0" prefWidth="600.0">
          <children>
@@ -49,9 +48,9 @@
       </GridPane>
       <Pane prefHeight="66.0" prefWidth="600.0">
          <children>
-            <Button fx:id="signupSubmit" layoutX="246.0" layoutY="21.0" mnemonicParsing="false" onAction="#onSignupSubmit" text="Submit" />
-            <Button fx:id="signupCancel" layoutX="300.0" layoutY="21.0" mnemonicParsing="false" onAction="#returnHome" text="Cancel" />
+            <Button fx:id="signupSubmit" layoutX="239.0" layoutY="21.0" mnemonicParsing="false" onAction="#onSignupSubmit" text="Submit" />
+            <Button fx:id="signupCancel" layoutX="306.0" layoutY="21.0" mnemonicParsing="false" onAction="#returnHome" text="Cancel" />
          </children>
       </Pane>
    </children>
-</fx:root>
+</VBox>

@@ -4,12 +4,17 @@ import java.io.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-
+/*
+* Author: ah501
+* A class purely for file handling, supporting Movie, Rating and MovieReg classes.
+* Contains static methods which open the correct CSV file, and then either fetch information from it
+* or write passed information to it.
+ */
 public class MovieIO implements Symbols{
 
 
 
-/* read and write ratings from/to the relevant CSV */
+    // Read ratings from the Ratings.csv file and return them as an ArrayList.
     public static ArrayList<Rating> readRating() {
         BufferedReader reader = null;
         ArrayList<Rating> ratings = new ArrayList<Rating>();
@@ -58,6 +63,7 @@ public class MovieIO implements Symbols{
     return ratings;
     }
 
+    // Writes the passed ending to a new line at the end of the Ratings.csv file.
     public static void writeRating(Rating r) {
 
         FileWriter writer = null;
@@ -93,8 +99,9 @@ public class MovieIO implements Symbols{
         }
     }
 
-    /* read and write movies from/to the relevant CSV */
 
+    // Read movies from the MovieData.csv file and return them as an ArrayList.
+    // This file is a shortened version of the full Movies.csv.
     public static ArrayList<Movie> readMovie() {
         BufferedReader reader = null;
         ArrayList<Movie> movies = new ArrayList<Movie>();
@@ -142,7 +149,7 @@ public class MovieIO implements Symbols{
     return movies;
     }
 
-
+    // Writes passed movie object as ID, name and genre to the end of the MovieData.csv file.
     public static void writeMovie(Movie m) {
 
         FileWriter writer = null;
@@ -177,9 +184,10 @@ public class MovieIO implements Symbols{
         }
     }
 
-    /* rating fetch methods */
 
-    //calculate initial avg. rating of a movie, by searching the list of movies for its id.
+
+    // Calculate initial avg. rating of a movie, by searching the list of movies for its id and collecting
+    // the related ratings. It then sums them and finds the mean value.
     public static double movieRate(int id) {
 
         BufferedReader reader = null;
@@ -246,10 +254,9 @@ public class MovieIO implements Symbols{
 
     }
 
-    /* store the number of ratings a given movie has, so that if a new rating is added this
-    information is available to recalculate the average
-     */
-
+    // Counts how many ratings exist for a given movie by its ID in the Ratings.csv file
+    // This is implemented purely so that when a new rating is added, this information is available to calculate
+    // the new mean value.
     public static int numberOfRatings(int id) {
 
         BufferedReader reader = null;

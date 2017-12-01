@@ -1,6 +1,12 @@
 package ah501.test;
 import ah501.movies.*;
 
+/*
+* Author: ah501
+* Test class ensuring the different features implemented in the movie package worked as expected.
+* Where methods did not function correctly, they have been debugged after being tested here.
+ */
+
 public class MovieTest {
     public static void main (String[] args) {
 

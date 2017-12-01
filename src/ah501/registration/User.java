@@ -2,17 +2,27 @@ package ah501.registration;
 
 import java.io.*;
 
+/*
+* Author: ah501
+* Object type storing information about a given user. Its information can be written to a file in binary so it
+* can be retrieved for future use. Stores the username, name, email and password, as well as a unique ID.
+ */
+
 public class User implements Serializable {
 	
-	//attributes
-	//files/UserData.data
+	// Attributes
 	private static int lastId = 100006;
 	private String username, name, email, password;
 	private int userId;
 
 
 
-	//constructors
+	// Constructors
+	public User(){
+		userId = getLastId();
+		setLastId();
+	}
+
 	public User(String u, String n, String e, String p) {
 		username = u;
 		name = n;
@@ -24,9 +34,9 @@ public class User implements Serializable {
 	}
 
 	
-	//id management
+	// ID management
 	
-	//this method looks for the last id number in the file containing the user data
+	// This method looks for the last id number in the file containing the user data
 	public static void receiveLatestId() {
 		boolean proceed = true;
 		int n = 0;
@@ -80,7 +90,7 @@ public class User implements Serializable {
 	}
 	
 	
-	//getters + setters
+	// Getters + setters
 	
 	public int getUserId() {
 		return userId;

@@ -12,75 +12,39 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/*
+* Author: ah501
+* This controller handles the FXML features, navigation and other methods
+* of the MovieFinder JavaFX application.
+*/
+
 public class RegisterController {
 
-    // fxml attributes
+    // FXML attributes as required for handler methods.
 
     @FXML
-    private Label unamePrompt;
-
-    @FXML
-    private Label pwPrompt;
-
-    @FXML
-    private TextField usernameField;
-
-    @FXML
-    private PasswordField pwSignup;
-
-    @FXML
-    private Button loginSubmit;
-
-    @FXML
-    private Button loginCancel;
+    private PasswordField pwSignup, pwField;
 
     @FXML
     private Label loginError;
 
     @FXML
-    private Button login;
+    private Button login, signup,loginSubmit,loginCancel, signupSubmit, signupCancel;
 
     @FXML
-    private Button signup;
-
-    @FXML
-    private TextField unameField;
-
-    @FXML
-    private TextField nameField;
-
-    @FXML
-    private TextField emailField;
-
-    @FXML
-    private PasswordField pwField;
-
-    @FXML
-    private Button signupSubmit;
-
-    @FXML
-    private Button signupCancel;
+    private TextField unameField, usernameField, nameField, emailField;
 
 
-
-    // handler methods
+    // Handler methods for FXML elements.
 
     @FXML
     void onLogin(ActionEvent event) throws IOException {
-        Parent root;
         Stage stage;
         if(event.getSource()==login) {
             stage = (Stage) login.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("LoginForm.fxml"));
+            stage.setScene(SceneManager.createFXMLScene("LoginForm.fxml"));
+            stage.show();
         }
-
-
-
-    }
-
-    @FXML
-    void onSignup(ActionEvent event) {
-
     }
 
     @FXML
@@ -89,19 +53,12 @@ public class RegisterController {
     }
 
     @FXML
-    void returnHome(ActionEvent event) throws IOException {
-        Parent root;
+    void onSignup(ActionEvent event) throws IOException {
         Stage stage;
-        if(event.getSource()==signupCancel) {
-            //get reference to the button's stage
-            stage = (Stage) signupCancel.getScene().getWindow();
-            //load up OTHER FXML document
-            root = FXMLLoader.load(getClass().getResource("../../../StartScreen.fxml"));
-        }
-
-        if(event.getSource()==loginCancel) {
-            stage = (Stage) loginCancel.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("../../../StartScreen.fxml"));
+        if(event.getSource() == signup) {
+            stage = (Stage) signup.getScene().getWindow();
+            stage.setScene(SceneManager.createFXMLScene("SignupForm.fxml"));
+            stage.show();
         }
     }
 
@@ -109,6 +66,24 @@ public class RegisterController {
     void onSignupSubmit(ActionEvent event) {
 
     }
+
+    @FXML
+    void returnHome(ActionEvent event) throws IOException {
+        Stage stage;
+        if(event.getSource()==signupCancel) {
+            stage = (Stage) signupCancel.getScene().getWindow();
+            stage.setScene(SceneManager.createFXMLScene("StartScreen.fxml"));
+            stage.show();
+        }
+
+        if(event.getSource()==loginCancel) {
+            stage = (Stage) loginCancel.getScene().getWindow();
+            stage.setScene(SceneManager.createFXMLScene("StartScreen.fxml"));
+            stage.show();
+        }
+    }
+
+
 
 
 

@@ -13,6 +13,13 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 
+/*
+* Author: ah501
+* Registry class storing users in a map, where the key is their ID and the value is their username.
+* Handles adding new users by writing them to the UserData file.
+* When initialised, it fetches the user information from the file by deserializing it and adds each user to the map.
+ */
+
 public class Registry {
 	
 	private Map<Integer, String> register;

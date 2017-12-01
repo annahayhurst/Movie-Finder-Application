@@ -5,11 +5,20 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 
+/*
+* Author: ah501
+* A registry class that stores information about movies and their ratings according to the current state of the source files.
+* Has methods for calculating average ratings of the movies stored in its array list, and writing new ratings and movies to
+* the relevant files via MovieIO methods.
+ */
+
 public class MovieReg implements Symbols{
 
+    // Attributes
     private ArrayList<Movie> movies;
     private ArrayList<Rating> ratings;
 
+    // Constructor
     public MovieReg() {
         ratings = MovieIO.readRating();
         movies = MovieIO.readMovie();
@@ -18,7 +27,7 @@ public class MovieReg implements Symbols{
     }
 
 
-    //for when user adds a new rating
+    // For when user adds a new rating: add this to the Ratings.csv file then update the rating of the movie.
     public void addNewRating(Rating r){
         MovieIO.writeRating(r);
         ratings.add(r);
@@ -26,13 +35,13 @@ public class MovieReg implements Symbols{
 
     }
 
-    //for when user adds a new movie
+    // For when user adds a new movie: add this to the MovieData.csv file and to the current working list.
     public void addNewMovie(Movie m) {
         MovieIO.writeMovie(m);
         movies.add(m);
     }
 
-    //search for a movie, given a name is entered to search for it
+    // Search for a movie, given a name is entered to search for it.
     public ArrayList<Movie> searchByName(String query) {
        ArrayList<Movie> searchResult = new ArrayList<Movie>();
 
@@ -45,7 +54,7 @@ public class MovieReg implements Symbols{
         return searchResult;
     }
 
-    //search for a movie, given a genre is entered to search for it
+    // Search for a movie, given a genre is entered to search for it.
     public ArrayList<Movie> searchByGenre(String query) {
         ArrayList<Movie> searchResult = new ArrayList<Movie>();
 
@@ -58,6 +67,7 @@ public class MovieReg implements Symbols{
         return searchResult;
     }
 
+    // Search for a movie by its id.
     public Movie getById(int id) throws Exception {
         Movie toFind = null;
 
@@ -72,19 +82,19 @@ public class MovieReg implements Symbols{
         } else throw new Exception("Could not find movie with that id in this registry.");
     }
 
-    //sorts movies by their names, using a Comparator that looks at the getName() method
+    // Sorts movies by their names, using a Comparator that looks at the getName() method.
     public void sort() {
         getMovies().sort(Comparator.comparing(Movie::getName));
     }
 
-
+    // Generates the current ratings for the movies in this registry, when the registry is created.
     public synchronized void initialiseRatings(){
         for(Movie m : movies) {
             m.setAggregateRating( MovieIO.movieRate (m.getMovieId()) );
             m.setNoRatings( MovieIO.numberOfRatings (m.getMovieId()) );
         }
     }
-    //recalculate average score without having to go back into file handling
+    // Recalculate average score without having to go back into file handling.
     public void updateAggregateRating(int id, double nr) {
 
         for(Movie m : movies) {
@@ -99,7 +109,7 @@ public class MovieReg implements Symbols{
         }
     }
 
-    //a user can delete a movie they have added to the registry so it no longer appears in their UI
+    // A user can delete a movie they have added to the registry so it no longer appears in their UI.
     public void deleteMovie(int id) {
         Iterator<Movie> movieIterator = getMovies().iterator();
         while(movieIterator.hasNext()){
@@ -111,7 +121,7 @@ public class MovieReg implements Symbols{
         }
     }
 
-    //a user can delete a rating they have added for a movie so it no longer appears on their UI
+    // A user can delete a rating they have added for a movie so it no longer appears on their UI.
     public void deleteRating(Rating r) {
         Iterator<Rating> ratingIterator = getRatings().iterator();
         while(ratingIterator.hasNext()){
@@ -124,7 +134,7 @@ public class MovieReg implements Symbols{
     }
 
 
-    // methods for printing the contents of the registry for examination
+    // Methods for printing the contents of the registry for examination
     public String printRegistry(){
         StringBuilder toPrint = new StringBuilder();
         DecimalFormat decimalFormat = new DecimalFormat("#.00");
@@ -143,7 +153,7 @@ public class MovieReg implements Symbols{
                 printRegistry() + " ]";
     }
 
-    //getters and setters
+    // Getters and setters
     public ArrayList<Movie> getMovies() {
         return movies;
     }
