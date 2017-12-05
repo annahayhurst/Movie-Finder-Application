@@ -1,5 +1,6 @@
 package ah501.registration;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.io.EOFException;
@@ -22,11 +23,11 @@ import java.io.Serializable;
 
 public class Registry {
 	
-	private Map<Integer, String> register;
+	private ArrayList register;
 
 	//constructor
 	public Registry( ) {
-		register = new HashMap<Integer, String>();
+		register = new ArrayList<User>();
 		fetchUserInformation(register);
 		User.receiveLatestId();
 
@@ -40,7 +41,7 @@ public class Registry {
 	public void addUser(User newUser) {
 	
 	if(register(newUser)) {
-		this.getRegister().put(newUser.getUserId(), newUser.getUsername());
+		this.getRegister().add(newUser);
 		saveUserInformation(newUser);
 		System.out.println("User registered successfully.");
 	}
@@ -74,7 +75,7 @@ public class Registry {
 	}
 	
 	// this loads the current data from the user data file into the map
-	private void fetchUserInformation(Map<Integer, String> map) {
+	private void fetchUserInformation(ArrayList<User> users) {
 		boolean proceed = true;
 		InputStream fileInput = null;
         ObjectInputStream objInStream = null;
@@ -89,7 +90,7 @@ public class Registry {
         	 try {
         		 u = (User) objInStream.readObject();
         		 if(u != null) {
-            		 map.put(u.getUserId(), u.getUsername());
+            		users.add(u);
             		// System.out.println(u == null);
             	 } else proceed = false;
         		 
@@ -139,12 +140,12 @@ public class Registry {
 	
 	// getters + setters
 	
-	public Map<Integer, String> getRegister() {
+	public ArrayList<User> getRegister() {
 		return register;
 	}
 
 
-	public void setRegister(Map<Integer, String> register) {
+	public void setRegister(ArrayList<User> register) {
 		this.register = register;
 	}
 
