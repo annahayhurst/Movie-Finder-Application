@@ -53,7 +53,7 @@ public class Registry {
 		OutputStream output = null;
         ObjectOutputStream objOut = null;
         try {
-            output = new FileOutputStream(System.getProperty("user.dir")+"\\src\\files\\UserData.data");
+            output = new FileOutputStream("./src/files/UserData.data");
             objOut = new ObjectOutputStream(output);
             objOut.writeObject(user);
             
@@ -81,7 +81,7 @@ public class Registry {
         ObjectInputStream objInStream = null;
         
         try {
-            fileInput = new FileInputStream(".\\src\\files\\UserData.data");
+            fileInput = new FileInputStream("./src/files/UserData.data");
 				objInStream = new ObjectInputStream(fileInput);
           
            // as long as there are objects left in the file, read them

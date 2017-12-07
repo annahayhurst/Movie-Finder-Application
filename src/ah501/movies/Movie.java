@@ -7,6 +7,8 @@ package ah501.movies;
  */
 
 
+import java.text.DecimalFormat;
+
 public class Movie {
 
     // Attributes
@@ -61,5 +63,11 @@ public class Movie {
 
     public void setAggregateRating(double aggregateRating) {
         this.aggregateRating = aggregateRating;
+    }
+
+    @Override
+    public String toString(){
+        DecimalFormat decimalFormat = new DecimalFormat("#.00");
+        return getName() + "   ||   " + getGenre() + "   ||   " +  decimalFormat.format(getAggregateRating());
     }
 }
