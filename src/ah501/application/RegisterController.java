@@ -35,7 +35,6 @@ public class RegisterController {
     // Attributes
     private Registry reg;
     private MovieReg mreg;
-    private User activeUser;
     private static int lastId = 164979;
 
     // FXML attributes as required for handler methods.
@@ -47,13 +46,13 @@ public class RegisterController {
 
     @FXML
     private Button login, signup,loginSubmit,loginCancel, signupSubmit, signupCancel,
-    search, clear, randomise, back, addM, addR;
+    search, clear, randomise, back, addM, addR, all, sort;
 
     @FXML
     private TextField unameField, usernameField, nameField, emailField, searchField, mNameField, yearField, genreField;
 
     @FXML
-    private MenuItem newMovie, newRating, exit, about, logout;
+    private MenuItem newMovie, newRating, about, logout;
 
     @FXML
     private ListView<String> movieList, searchResults;
@@ -138,7 +137,6 @@ public class RegisterController {
                 if (!exists) {
                     User n = new User(unameField.getText(), nameField.getText(), emailField.getText(), pwSignup.getText());
                     reg.addUser(n);
-                    activeUser = n;
                     stage = (Stage) signupSubmit.getScene().getWindow();
                     stage.setScene(SceneManager.createFXMLScene("LoginForm.fxml"));
                     stage.show();
@@ -164,27 +162,30 @@ public class RegisterController {
             stage.show();
         }
 
-        if(event.getSource() == logout) {
-            activeUser = null;
-            stage = (Stage) clear.getScene().getWindow();
+    }
+
+    @FXML
+    void onLogout(ActionEvent event) throws IOException {
+        Stage stage;
+
+            stage = (Stage) randomise.getScene().getWindow();
             stage.setScene(SceneManager.createFXMLScene("StartScreen.fxml"));
             stage.show();
-        }
     }
 
     @FXML
     void onAbout(ActionEvent event) throws IOException {
         Stage stage;
-        if(event.getSource() == about) {
             stage = (Stage) randomise.getScene().getWindow();
             stage.setScene(SceneManager.createFXMLScene("About.fxml"));
             stage.show();
-        }
     }
 
     @FXML
     void onClear(ActionEvent event) {
         searchField.clear();
+        ObservableList<String> cleared = FXCollections.observableArrayList();
+        searchResults.setItems(cleared);
     }
 
     @FXML
@@ -274,6 +275,18 @@ public class RegisterController {
         ObservableList<String> random = RegisterController.randomise();
         movieList.setItems(random);
 
+    }
+
+    @FXML
+    void onAll(ActionEvent event) {
+        ObservableList<String> all = RegisterController.viewAll();
+        movieList.setItems(all);
+    }
+
+    @FXML
+    void onSort (ActionEvent event) {
+        ObservableList<String> sorted = RegisterController.sorter();
+        movieList.setItems(sorted);
     }
 
     @FXML
@@ -367,4 +380,37 @@ public class RegisterController {
         return toReturn;
     }
 
+    private static ObservableList<String> viewAll() {
+        ObservableList<String> toReturn = FXCollections.observableArrayList();
+        MovieReg movieReg = new MovieReg();
+        toReturn.add("-----------------------------------------------");
+        toReturn.add("Title (Year)   ||   Genres   ||   Average Rating");
+        toReturn.add("-----------------------------------------------");
+
+        for(Movie m: movieReg.getMovies()) {
+            toReturn.add(m.toString());
+            toReturn.add("~*~");
+        }
+
+        return toReturn;
+    }
+
+    private static ObservableList<String> sorter() {
+        ObservableList<String> toReturn = FXCollections.observableArrayList();
+        MovieReg movieReg = new MovieReg();
+        movieReg.sort();
+        toReturn.add("-----------------------------------------------");
+        toReturn.add("Title (Year)   ||   Genres   ||   Average Rating");
+        toReturn.add("-----------------------------------------------");
+
+        for(Movie m: movieReg.getMovies()) {
+            toReturn.add(m.toString());
+            toReturn.add("~*~");
+        }
+
+        return toReturn;
+    }
+
 }
+
+

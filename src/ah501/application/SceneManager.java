@@ -15,7 +15,7 @@ import java.nio.file.Paths;
 
 public class SceneManager {
 
-    private static String basePath = "resources/views/";
+    private static String basePath = "src/resources/views/";
 
     // Fetches an FXML file passed by file name by looking in the base path.
     // Loads it as a pane, which is then passed to create a scene, which is returned.

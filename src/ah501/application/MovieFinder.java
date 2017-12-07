@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 /*
 * Author: ah501
 * The primary class for the MovieFinder app. Implements start() method that launches the app with the
-* home screen on display. Additionally has a main method for launching the application, if necessary.
+* home screen on display. Additionally has a main method for launching the application via command line, if necessary.
  */
 
 public class MovieFinder extends Application {

@@ -43,7 +43,7 @@
                                  </accelerator>
                               </MenuItem>
                               <SeparatorMenuItem mnemonicParsing="false" />
-                              <MenuItem mnemonicParsing="false" onAction="#returnHome" text="Logout">
+                              <MenuItem mnemonicParsing="false" onAction="#onLogout" text="Logout">
                                  <accelerator>
                                     <KeyCodeCombination alt="UP" code="L" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                                  </accelerator>
@@ -62,15 +62,17 @@
                       </Menu>
                     </menus>
                   </MenuBar>
-                  <Separator layoutY="296.0" prefHeight="0.0" prefWidth="224.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="296.0" />
-                  <Text layoutX="27.0" layoutY="330.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Want to search for a movie?">
+                  <Separator layoutX="1.0" layoutY="317.0" prefHeight="0.0" prefWidth="224.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="317.0" />
+                  <Text layoutX="27.0" layoutY="346.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Want to search for a movie?">
                      <font>
                         <Font name="System Bold Italic" size="13.0" />
                      </font>
                   </Text>
-                  <Button fx:id="search" layoutX="86.0" layoutY="346.0" mnemonicParsing="false" onAction="#onSearch" text="Search" />
+                  <Button fx:id="search" layoutX="86.0" layoutY="359.0" mnemonicParsing="false" onAction="#onSearch" text="Search" />
                   <Separator layoutY="247.0" prefHeight="3.0" prefWidth="224.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="247.0" />
                   <Button fx:id="randomise" layoutX="46.0" layoutY="259.0" mnemonicParsing="false" onAction="#onRandom" text="View random movies!" />
+                  <Button fx:id="all" layoutX="46.0" layoutY="284.0" mnemonicParsing="false" onAction="#onAll" prefHeight="25.0" prefWidth="79.0" text="View all" />
+                  <Button fx:id="sort" layoutX="125.0" layoutY="284.0" mnemonicParsing="false" onAction="#onSort" prefHeight="25.0" prefWidth="52.0" text="Sort" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="348.0">
@@ -80,7 +82,7 @@
                         <Font size="25.0" />
                      </font>
                   </Text>
-                  <ListView id="movielist" fx:id="movieList" layoutY="55.0" prefHeight="343.0" prefWidth="368.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="55.0">
+                  <ListView fx:id="movieList" layoutY="55.0" prefHeight="343.0" prefWidth="368.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="55.0">
                      <effect>
                         <InnerShadow />
                      </effect>
