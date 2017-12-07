@@ -373,7 +373,7 @@ public class RegisterController {
             toReturn.add("-----------------------------------------------");
 
             for(Movie m : results){
-                toReturn.add(m.getName() + "   ||   " + m.getGenre() + "   ||   " + m.getAggregateRating());
+                toReturn.add(m.toString());
                 toReturn.add(" ");
             }
         }
