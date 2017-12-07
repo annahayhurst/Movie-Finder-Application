@@ -93,11 +93,18 @@ public class MovieReg implements Symbols{
     }
 
     // Generates the current ratings for the movies in this registry, when the registry is created.
-    public synchronized void initialiseRatings(){
-        for(Movie m : movies) {
-            m.setAggregateRating( MovieIO.movieRate (m.getMovieId()) );
-            m.setNoRatings( MovieIO.numberOfRatings (m.getMovieId()) );
+    // Uses threads.
+    public void initialiseRatings(){
+       ArrayList<double[]> threads = new ArrayList<>();
+        for(int i = 0; i<getMovies().size(); i++) {
+            threads.add(new RatingThread(getMovies().get(i).getMovieId()).call());
         }
+
+        for(int i = 0; i<getMovies().size(); i++){
+            getMovies().get(i).setAggregateRating(threads.get(i)[0]);
+            getMovies().get(i).setNoRatings((int) threads.get(i)[1]);
+        }
+
     }
     // Recalculate average score without having to go back into file handling.
     public void updateAggregateRating(int id, double nr) {

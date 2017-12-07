@@ -15,6 +15,7 @@ public class MovieTest {
 
 
         //see if registry has initialised correctly
+        testReg.sort();
         System.out.println(testReg.toString());
 
         //test that the movieRate method works, and only works with correct IDs
@@ -23,31 +24,31 @@ public class MovieTest {
 
 
         //rating example, to test if calculator methods and writeRating() work
-        Rating testRating = new Rating(100006, 1356, 4);
-        testReg.addNewRating(testRating);
-
-        Movie testUpdateRating = null;
-        try {
-            testUpdateRating = testReg.getById(1356);
-            System.out.println(testUpdateRating.getAggregateRating());
-        } catch (Exception e){
-            e.getMessage();
-        }
-
-        //movie example, to test if a new movie can be added to the data file
-        Movie testMovie = new Movie(99999, "My Movie", "Comedy");
-        testReg.addNewMovie(testMovie);
-
-        //test that sort method correctly reorders the registry alphabetically by name of film
-        testReg.sort();
-        System.out.println(testReg.toString());
-
-        //test that a new movie can be deleted from the list again
-        testReg.deleteMovie(99999);
-        System.out.println(testReg.toString());
-
-        //test that a new rating can be deleted from the list again
-        testReg.deleteRating(testRating);
+//        Rating testRating = new Rating(100006, 1356, 4);
+//        testReg.addNewRating(testRating);
+//
+//        Movie testUpdateRating = null;
+//        try {
+//            testUpdateRating = testReg.getById(1356);
+//            System.out.println(testUpdateRating.getAggregateRating());
+//        } catch (Exception e){
+//            e.getMessage();
+//        }
+//
+//        //movie example, to test if a new movie can be added to the data file
+//        Movie testMovie = new Movie(99999, "My Movie", "Comedy");
+//        testReg.addNewMovie(testMovie);
+//
+//        //test that sort method correctly reorders the registry alphabetically by name of film
+//        testReg.sort();
+//        System.out.println(testReg.toString());
+//
+//        //test that a new movie can be deleted from the list again
+//        testReg.deleteMovie(99999);
+//        System.out.println(testReg.toString());
+//
+//        //test that a new rating can be deleted from the list again
+//        testReg.deleteRating(testRating);
         //System.out.println(testReg.getRatings());
 
 
