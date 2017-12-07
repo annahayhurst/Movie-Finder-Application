@@ -9,7 +9,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ah501.application.RegisterController">
    <children>
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Add a new rating">
@@ -22,15 +21,20 @@
             <Font size="13.0" />
          </font>
       </Text>
+      <Text fill="#545454" strokeType="OUTSIDE" strokeWidth="0.0" text="(If the drop down menus aren't loading, please try clicking on them again.)" wrappingWidth="361.689453125">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Text>
       <Label />
       <HBox alignment="CENTER" prefHeight="40.0" prefWidth="600.0">
          <children>
-            <Text fx:id="movieChoice" strokeType="OUTSIDE" strokeWidth="0.0" text="Movie">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Movie">
                <HBox.margin>
                   <Insets right="10.0" />
                </HBox.margin>
             </Text>
-            <ChoiceBox fx:id="movieChoice" prefHeight="25.0" prefWidth="160.0" />
+            <ChoiceBox fx:id="movieChoice" onMouseClicked="#generateMovies" prefHeight="25.0" prefWidth="160.0" />
          </children>
       </HBox>
       <HBox alignment="CENTER" prefHeight="40.0" prefWidth="600.0">
@@ -40,12 +44,13 @@
                   <Insets right="10.0" />
                </HBox.margin>
             </Text>
-            <ChoiceBox fx:id="movieRating" prefHeight="25.0" prefWidth="45.0" />
+            <ChoiceBox fx:id="movieRating" onMouseClicked="#generateScores" prefHeight="25.0" prefWidth="45.0" />
          </children>
       </HBox>
+      <Label fx:id="ratingError" textFill="RED" />
       <HBox alignment="CENTER" prefHeight="55.0" prefWidth="600.0">
          <children>
-            <Button fx:id="addR" mnemonicParsing="false" onAction="#onAddR" text="Add" />
+            <Button fx:id="addR" mnemonicParsing="false" onAction="#onSubmitR" text="Add" />
             <Button fx:id="back" mnemonicParsing="false" onAction="#goBack" text="Cancel" />
          </children>
       </HBox>

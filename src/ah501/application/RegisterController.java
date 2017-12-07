@@ -1,7 +1,9 @@
 package ah501.application;
 
 import ah501.movies.Movie;
+import ah501.movies.MovieIO;
 import ah501.movies.MovieReg;
+import ah501.movies.Rating;
 import ah501.registration.Registry;
 import ah501.registration.User;
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
@@ -14,6 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -33,26 +36,33 @@ public class RegisterController {
     private Registry reg;
     private MovieReg mreg;
     private User activeUser;
+    private static int lastId = 164979;
 
     // FXML attributes as required for handler methods.
     @FXML
     private PasswordField pwSignup, pwField;
 
     @FXML
-    private Label loginError, signupError;
+    private Label loginError, signupError, movieError, ratingError;
 
     @FXML
     private Button login, signup,loginSubmit,loginCancel, signupSubmit, signupCancel,
-    search, clear, randomise, back;
+    search, clear, randomise, back, addM, addR;
 
     @FXML
-    private TextField unameField, usernameField, nameField, emailField, searchField;
+    private TextField unameField, usernameField, nameField, emailField, searchField, mNameField, yearField, genreField;
 
     @FXML
     private MenuItem newMovie, newRating, exit, about, logout;
 
     @FXML
     private ListView<String> movieList, searchResults;
+
+    @FXML
+    private ChoiceBox<Integer> movieRating;
+
+    @FXML
+    private ChoiceBox<String> movieChoice;
 
 
     // Handler methods for FXML elements.
@@ -92,11 +102,7 @@ public class RegisterController {
                 loginError.setText("Please enter a password");
             }
 
-
-
         }
-
-
     }
 
     @FXML
@@ -187,18 +193,80 @@ public class RegisterController {
     }
 
     @FXML
-    void onNewM(ActionEvent event) {
+    void onNewM(ActionEvent event) throws IOException{
+        Stage stage;
+        if(event.getSource() == newMovie) {
+            stage = (Stage) randomise.getScene().getWindow();
+            stage.setScene(SceneManager.createFXMLScene("AddMovie.fxml"));
+            stage.show();
+        }
+    }
+
+
+
+    @FXML
+    void onSubmitM(ActionEvent event) throws IOException {
+        StringBuilder compositeName = new StringBuilder();
+        if(movieRating.getValue() == null) {
+            movieError.setText("Please provide a rating for the new film.");
+        } else if (mNameField.getText().isEmpty() || yearField.getText().isEmpty() || genreField.getText().isEmpty()) {
+                movieError.setText("Please provide all required information.");
+            } else if (genreField.getText().contains(",")) {
+                movieError.setText("Please separate your genres with the | symbol, not commas.");
+            } else {
+
+                mreg = new MovieReg(0);
+                compositeName.append(mNameField.getText() + " (" + yearField.getText() + ")");
+                Movie toAdd = new Movie(lastId, compositeName.toString(), genreField.getText());
+                Rating firstRating = new Rating(100006, lastId, movieRating.getValue());
+                mreg.addNewMovie(toAdd);
+                mreg.addNewRating(firstRating);
+                lastId++;
+
+                Stage stage;
+                stage = (Stage) addM.getScene().getWindow();
+                stage.setScene(SceneManager.createFXMLScene("MainView.fxml"));
+                stage.show();
+
+            }
+
+
 
     }
 
     @FXML
-    void onSubmitM(ActionEvent event) {
-
+    void onNewR(ActionEvent event) throws IOException {
+        Stage stage;
+        if(event.getSource() == newRating) {
+            stage = (Stage) randomise.getScene().getWindow();
+            stage.setScene(SceneManager.createFXMLScene("AddRating.fxml"));
+            stage.show();
+        }
     }
 
     @FXML
-    void onNewR(ActionEvent event) {
+    void onSubmitR(ActionEvent event) throws IOException {
+        Stage stage;
+        mreg = new MovieReg();
+        if(movieChoice == null) {
+            ratingError.setText("Please select a movie.");
+        } else if(movieRating == null) {
+            ratingError.setText("Please select a rating for " + movieChoice.getValue());
+        } else {
+           Movie m = mreg.searchByName(movieChoice.getValue()).get(0);
+           if(MovieIO.existsRating(100006, m.getMovieId())){
+               ratingError.setText("You have already rated this movie, please select another.");
+           } else {
+               Rating r = new Rating(100006, m.getMovieId(), movieRating.getValue());
+               mreg.addNewRating(r);
+               stage = (Stage) addR.getScene().getWindow();
+               stage.setScene(SceneManager.createFXMLScene("MainView.fxml"));
+               stage.show();
 
+           }
+
+
+        }
     }
 
     @FXML
@@ -212,9 +280,25 @@ public class RegisterController {
     void onSearch(ActionEvent event) throws IOException {
         Stage stage;
         stage = (Stage) search.getScene().getWindow();
+        stage.setScene(SceneManager.createFXMLScene("SearchResults.fxml"));
         stage.show();
 
     }
+
+    @FXML
+    void performSearch(ActionEvent event) {
+        ObservableList<String> results = FXCollections.observableArrayList();
+        if(searchField.getText().isEmpty()){
+            results.add("Please enter a search query.");
+            searchResults.setItems(results);
+        } else {
+            String query = searchField.getText();
+            results = (RegisterController.searchByName(query));
+            searchResults.setItems(results);
+        }
+    }
+
+
 
     @FXML
     void goBack(ActionEvent event) throws IOException {
@@ -233,15 +317,11 @@ public class RegisterController {
         toReturn.add("-----------------------------------------------");
         toReturn.add("Title (Year)   ||   Genres   ||   Average Rating");
         toReturn.add("-----------------------------------------------");
-        List<Integer> randomiser = Arrays.asList(0,1,2,3,4,5,6,7,8,9);
-        Collections.shuffle(randomiser);
-
         MovieReg movies = new MovieReg();
+        Collections.shuffle(movies.getMovies());
 
         for(int i = 0; i < 5; i++) {
-            int element = randomiser.get(i);
-
-            toReturn.add(movies.getMovies().get(element).toString());
+            toReturn.add(movies.getMovies().get(i).toString());
             if(i < 4) {
             toReturn.add("~ * ~"); }
         }
@@ -250,6 +330,41 @@ public class RegisterController {
 
     }
 
+    public void generateScores() {
+        ObservableList<Integer> scores = FXCollections.observableArrayList(1,2,3,4,5);
+        movieRating.setItems(scores);
+    }
 
+    public void generateMovies() {
+        ObservableList<String> names = FXCollections.observableArrayList();
+        mreg = new MovieReg(0);
+        for(int i = 0; i < mreg.getMovies().size(); i++ ) {
+            names.add(mreg.getMovies().get(i).getName());
+        }
+        movieChoice.setItems(names);
+
+    }
+
+
+    private static ObservableList<String> searchByName(String q) {
+        ObservableList<String> toReturn = FXCollections.observableArrayList();
+        MovieReg movieReg = new MovieReg();
+        ArrayList<Movie> results = movieReg.searchByName(q);
+
+        if(results.isEmpty()) {
+            toReturn.add("Sorry, we couldn't find any movies matching that search.");
+            toReturn.add("Please note that our search system is case sensitive!");
+        } else {
+            toReturn.add("-----------------------------------------------");
+            toReturn.add("Title (Year)   ||   Genres   ||   Average Rating");
+            toReturn.add("-----------------------------------------------");
+
+            for(Movie m : results){
+                toReturn.add(m.getName() + "   ||   " + m.getGenre() + "   ||   " + m.getAggregateRating());
+                toReturn.add(" ");
+            }
+        }
+        return toReturn;
+    }
 
 }

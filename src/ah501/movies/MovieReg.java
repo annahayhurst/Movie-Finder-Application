@@ -26,6 +26,11 @@ public class MovieReg implements Symbols{
         initialiseRatings();
     }
 
+    public MovieReg(int noRate) {
+        ratings = MovieIO.readRating();
+        movies = MovieIO.readMovie();
+    }
+
 
     // For when user adds a new rating: add this to the Ratings.csv file then update the rating of the movie.
     public void addNewRating(Rating r){

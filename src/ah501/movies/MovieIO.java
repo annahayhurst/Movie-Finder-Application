@@ -308,4 +308,55 @@ public class MovieIO implements Symbols{
 
     }
 
+    // Checks if a given user has already given a rating for a film.
+    // If they have it breaks from the loop and returns true.
+    public static boolean existsRating(int userId, int movieId) {
+
+        BufferedReader reader = null;
+
+        try {
+            reader = new BufferedReader(new FileReader("./src/files/ratings.csv"));
+            String line = "";
+            reader.readLine();
+
+            while ((line = reader.readLine()) != null) {
+
+                String[] tokens = line.split(COMMA);
+                if (tokens.length > 0) {
+
+                    try {
+
+                       if (Integer.parseInt(tokens[0]) == userId && Integer.parseInt(tokens[1]) == movieId) {
+                           return true;
+                       }
+                    } catch (NumberFormatException nfe) {
+                        System.out.println("Parsed value was not an integer or double.");
+                        break;
+                    }
+                }
+            }
+
+        } catch (EOFException eof) {
+            System.out.println("Reached end of file, exiting.");
+        } catch(FileNotFoundException fnf) {
+            System.out.println("File not found at specified path.");
+        } catch (IOException io) {
+            System.out.println("Error occurred with I/O.");
+            io.printStackTrace();
+        } finally {
+            try {
+                reader.close();
+            } catch(IOException io) {
+                System.out.println("Error occurred while closing reader.");
+            } catch (NullPointerException npe) {
+                System.out.println("Null pointer exception occurred while attempting to flush or close.");
+                npe.printStackTrace();
+            }
+        }
+
+        return false;
+
+
+    }
+
 }
