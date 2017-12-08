@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /*
 * Author: ah501
@@ -208,16 +209,21 @@ public class RegisterController {
     @FXML
     void onSubmitM(ActionEvent event) throws IOException {
         StringBuilder compositeName = new StringBuilder();
+        compositeName.append(mNameField.getText() + " (" + yearField.getText() + ")");
         if(movieRating.getValue() == null) {
             movieError.setText("Please provide a rating for the new film.");
-        } else if (mNameField.getText().isEmpty() || yearField.getText().isEmpty() || genreField.getText().isEmpty()) {
-                movieError.setText("Please provide all required information.");
-            } else if (genreField.getText().contains(",")) {
-                movieError.setText("Please separate your genres with the | symbol, not commas.");
-            } else {
+        }  else if(!Pattern.matches("[1-2][0-9][0-9][0-9]", yearField.getText())) {
+             movieError.setText("Please enter a valid year.");
+         } else if (mNameField.getText().isEmpty() || yearField.getText().isEmpty() || genreField.getText().isEmpty()) {
+            movieError.setText("Please provide all required information.");
+        }  else if (genreField.getText().contains(",")) {
+            movieError.setText("Please separate your genres with the | symbol, not commas.");
+        }  else if(MovieIO.existsMovie(compositeName.toString())) {
+            movieError.setText("This movie is already in our database.");
+        }
 
+        else {
                 mreg = new MovieReg(0);
-                compositeName.append(mNameField.getText() + " (" + yearField.getText() + ")");
                 Movie toAdd = new Movie(lastId, compositeName.toString(), genreField.getText());
                 Rating firstRating = new Rating(100006, lastId, movieRating.getValue());
                 mreg.addNewMovie(toAdd);
@@ -230,10 +236,10 @@ public class RegisterController {
                 stage.show();
 
             }
+        }
 
 
 
-    }
 
     @FXML
     void onNewR(ActionEvent event) throws IOException {

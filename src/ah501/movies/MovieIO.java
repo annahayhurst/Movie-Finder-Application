@@ -359,4 +359,49 @@ public class MovieIO implements Symbols{
 
     }
 
+    // Checks if a given film already exists in the data file.
+    // If it does, it breaks from the loop and returns true.
+    public static boolean existsMovie(String s) {
+
+        BufferedReader reader = null;
+
+        try {
+            reader = new BufferedReader(new FileReader("src/files/MovieData.csv"));
+            String line = "";
+            reader.readLine();
+
+            while ((line = reader.readLine()) != null) {
+
+                String[] tokens = line.split(COMMA);
+                if (tokens.length > 0) {
+
+                        if (s.equals(tokens[1])) {
+                            return true;
+                        }
+
+                }
+            }
+
+        } catch (EOFException eof) {
+            System.out.println("Reached end of file, exiting.");
+        } catch(FileNotFoundException fnf) {
+            System.out.println("File not found at specified path.");
+        } catch (IOException io) {
+            System.out.println("Error occurred with I/O.");
+            io.printStackTrace();
+        } finally {
+            try {
+                reader.close();
+            } catch(IOException io) {
+                System.out.println("Error occurred while closing reader.");
+            } catch (NullPointerException npe) {
+                System.out.println("Null pointer exception occurred while attempting to flush or close.");
+                npe.printStackTrace();
+            }
+        }
+
+        return false;
+
+
+    }
 }
