@@ -77,7 +77,7 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="348.0">
                <children>
-                  <Text layoutX="92.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&gt; MovieFinder &lt;" wrappingWidth="184.99755859375">
+                  <Text layoutX="92.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="MovieFinder" wrappingWidth="184.99755859375">
                      <font>
                         <Font size="25.0" />
                      </font>

@@ -44,7 +44,7 @@ public class User implements Serializable {
 		ObjectInputStream objInStream = null;
 
 		try {
-			fileInput = new FileInputStream(".\\src\\files\\UserData.data");
+			fileInput = new FileInputStream("src/files/UserData.data");
 			objInStream = new ObjectInputStream(fileInput);
 
 			while(proceed){

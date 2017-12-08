@@ -20,7 +20,7 @@ public class MovieIO implements Symbols{
         ArrayList<Rating> ratings = new ArrayList<Rating>();
 
         try {
-            reader = new BufferedReader(new FileReader("./src/files/ratings.csv"));
+            reader = new BufferedReader(new FileReader("src/files/ratings.csv"));
             String line = "";
             reader.readLine();
 
@@ -69,7 +69,7 @@ public class MovieIO implements Symbols{
         FileWriter writer = null;
 
         try {
-            writer = new FileWriter("./src/files/ratings.csv", true);
+            writer = new FileWriter("src/files/ratings.csv", true);
             //Write the new ratings into the CSV file
 
                 writer.append(String.valueOf(r.getUserId()));
@@ -107,7 +107,7 @@ public class MovieIO implements Symbols{
         ArrayList<Movie> movies = new ArrayList<Movie>();
 
         try {
-            reader = new BufferedReader(new FileReader("./src/files/MovieData.csv"));
+            reader = new BufferedReader(new FileReader("src/files/MovieData.csv"));
             String line = "";
             reader.readLine();
 
@@ -155,7 +155,7 @@ public class MovieIO implements Symbols{
         FileWriter writer = null;
 
         try {
-            writer = new FileWriter("./src/files/MovieData.csv", true);
+            writer = new FileWriter("src/files/MovieData.csv", true);
 
             writer.append(String.valueOf(m.getMovieId()));
             writer.append(COMMA);
@@ -195,7 +195,7 @@ public class MovieIO implements Symbols{
         int numberOfRatings = 0;
 
         try {
-            reader = new BufferedReader(new FileReader("./src/files/ratings.csv"));
+            reader = new BufferedReader(new FileReader("src/files/ratings.csv"));
             String line = "";
             reader.readLine();
 
@@ -263,7 +263,7 @@ public class MovieIO implements Symbols{
         int numberOfRatings = 0;
 
         try {
-            reader = new BufferedReader(new FileReader("./src/files/ratings.csv"));
+            reader = new BufferedReader(new FileReader("src/files/ratings.csv"));
             String line = "";
             reader.readLine();
 
@@ -315,7 +315,7 @@ public class MovieIO implements Symbols{
         BufferedReader reader = null;
 
         try {
-            reader = new BufferedReader(new FileReader("./src/files/ratings.csv"));
+            reader = new BufferedReader(new FileReader("src/files/ratings.csv"));
             String line = "";
             reader.readLine();
 
