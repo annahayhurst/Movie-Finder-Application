@@ -13,19 +13,31 @@ public class MovieTest {
         //movie registry to test methods on
         MovieReg testReg = new MovieReg();
 
+        //test if save function works
+        //MovieIO.saveRegistry();
+
+        //test if load function works
+        MovieIO.load();
+
 
         //see if registry has initialised correctly
-        testReg.sort();
-        System.out.println(testReg.toString());
+//        testReg.sort();
+//        System.out.println(testReg.toString());
+
+        //test delete method
+//        testReg.deleteMovie("Jumanji (1995)");
+//        System.out.println(testReg.toString());
+
 
         //test that the movieRate method works, and only works with correct IDs
-        System.out.println("Average score of movie with ID 1356: " + MovieIO.movieRate(1356));
+        //System.out.println("Average score of movie with ID 1356: " + MovieIO.movieRate(1356));
         //System.out.println(MovieIO.movieRate(999999));
 
 
         //rating example, to test if calculator methods and writeRating() work
 //        Rating testRating = new Rating(100006, 1356, 4);
 //        testReg.addNewRating(testRating);
+        //testReg.deleteRating(100006, 1356);
 //
 //        Movie testUpdateRating = null;
 //        try {

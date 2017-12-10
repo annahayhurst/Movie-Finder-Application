@@ -30,6 +30,20 @@
                   </ImageView>
                   <MenuBar layoutY="1.0" prefHeight="30.0" prefWidth="224.0" AnchorPane.bottomAnchor="367.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="1.0">
                     <menus>
+                        <Menu mnemonicParsing="false" text="File">
+                          <items>
+                              <MenuItem fx:id="save" mnemonicParsing="false" onAction="#onSave" text="Save">
+                                  <accelerator>
+                                      <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                                  </accelerator>
+                              </MenuItem>
+                              <MenuItem fx:id="load" mnemonicParsing="false" onAction="#onLoad" text="Load">
+                                  <accelerator>
+                                      <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                                  </accelerator>
+                              </MenuItem>
+                          </items>
+                        </Menu>
                       <Menu mnemonicParsing="false" text="Options">
                         <items>
                               <MenuItem fx:id="newMovie" mnemonicParsing="false" onAction="#onNewM" text="Add new movie">
@@ -40,6 +54,12 @@
                               <MenuItem fx:id="newRating" mnemonicParsing="false" onAction="#onNewR" text="Add new rating">
                                  <accelerator>
                                     <KeyCodeCombination alt="UP" code="R" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                                 </accelerator>
+                              </MenuItem>
+                              <SeparatorMenuItem mnemonicParsing="false" />
+                              <MenuItem fx:id="deleteMenu" mnemonicParsing="false" onAction="#toDelete" text="Delete">
+                                 <accelerator>
+                                    <KeyCodeCombination alt="UP" code="D" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                                  </accelerator>
                               </MenuItem>
                               <SeparatorMenuItem mnemonicParsing="false" />
@@ -77,7 +97,7 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="348.0">
                <children>
-                  <Text layoutX="92.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="MovieFinder" wrappingWidth="184.99755859375">
+                  <Text layoutX="114.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="MovieFinder" wrappingWidth="140.99755859375">
                      <font>
                         <Font size="25.0" />
                      </font>

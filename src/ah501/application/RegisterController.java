@@ -17,6 +17,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public class RegisterController {
 
     @FXML
     private Button login, signup,loginSubmit,loginCancel, signupSubmit, signupCancel,
-    search, clear, randomise, back, addM, addR, all, sort;
+    search, clear, randomise, back, addM, addR, all, sort, deleteM, deleteR;
 
     @FXML
     private TextField unameField, usernameField, nameField, emailField, searchField, mNameField, yearField, genreField;
@@ -148,6 +149,8 @@ public class RegisterController {
         }
     }
 
+    // End methods for registration, begin methods for main functionality
+
     @FXML
     void returnHome(ActionEvent event) throws IOException {
         Stage stage;
@@ -162,6 +165,36 @@ public class RegisterController {
             stage.setScene(SceneManager.createFXMLScene("StartScreen.fxml"));
             stage.show();
         }
+
+    }
+
+    @FXML
+    void onSave() {
+        ObservableList<String> saveResult = FXCollections.observableArrayList();
+        MovieIO.saveRegistry();
+        if(MovieIO.saveRatings()) {
+            saveResult.add("Your database was saved succesfully.");
+        } else {
+            saveResult.add("Something went wrong while saving! Please try again.");
+        }
+
+        movieList.setItems(saveResult);
+    }
+
+    @FXML
+    void onLoad() {
+        ObservableList<String> loadResult = FXCollections.observableArrayList();
+        File movies = new File("src/files/savedMovies.csv");
+        File ratings = new File("src/files/savedRatings.csv");
+        if(!movies.exists() || !ratings.exists()){
+            loadResult.add("Could not load database.");
+            loadResult.add("Have you saved yet? If not, you cannot load anything!");
+        } else {
+            MovieIO.load();
+            loadResult.add("Loaded your database settings succesfully.");
+        }
+
+        movieList.setItems(loadResult);
 
     }
 
@@ -195,6 +228,15 @@ public class RegisterController {
     }
 
     @FXML
+    void toDelete(ActionEvent event) throws IOException {
+        Stage stage;
+        stage = (Stage) randomise.getScene().getWindow();
+        stage.setScene(SceneManager.createFXMLScene("Delete.fxml"));
+        stage.show();
+
+    }
+
+    @FXML
     void onNewM(ActionEvent event) throws IOException{
         Stage stage;
         if(event.getSource() == newMovie) {
@@ -203,7 +245,6 @@ public class RegisterController {
             stage.show();
         }
     }
-
 
 
     @FXML
@@ -239,6 +280,29 @@ public class RegisterController {
         }
 
 
+    @FXML
+    void onDeleteM(ActionEvent event) throws IOException {
+        if(movieChoice.getValue() == null) {
+            movieError.setText("Please select a movie.");
+        } else {
+
+            String name = movieChoice.getValue();
+            mreg = new MovieReg(0);
+            Movie m = mreg.searchByName(name).get(0);
+
+            if(MovieIO.existsRating(100006, m.getMovieId())) {
+                mreg.deleteRating(100006,m.getMovieId());
+            }
+
+            mreg.deleteMovie(name);
+
+            Stage stage;
+            stage = (Stage) deleteM.getScene().getWindow();
+            stage.setScene(SceneManager.createFXMLScene("MainView.fxml"));
+            stage.show();
+        }
+    }
+
 
 
     @FXML
@@ -255,7 +319,7 @@ public class RegisterController {
     void onSubmitR(ActionEvent event) throws IOException {
         Stage stage;
         mreg = new MovieReg();
-        if(movieChoice == null) {
+        if(movieChoice.getValue() == null) {
             ratingError.setText("Please select a movie.");
         } else if(movieRating == null) {
             ratingError.setText("Please select a rating for " + movieChoice.getValue());
@@ -274,6 +338,27 @@ public class RegisterController {
 
 
         }
+    }
+
+    @FXML
+    void onDeleteR(ActionEvent event) throws IOException{
+        mreg = new MovieReg();
+        if(movieChoice.getValue() == null) {
+            movieError.setText("Please select a movie.");
+        } else {
+            Movie m = mreg.searchByName(movieChoice.getValue()).get(0);
+            if(!MovieIO.existsRating(100006, m.getMovieId())){
+                movieError.setText("You have not yet rated this movie.");
+            } else {
+                Movie m2 = mreg.searchByName(movieChoice.getValue()).get(0);
+                mreg.deleteRating(100006, m2.getMovieId());
+                Stage stage;
+                stage = (Stage) deleteR.getScene().getWindow();
+                stage.setScene(SceneManager.createFXMLScene("MainView.fxml"));
+                stage.show();
+            }
+        }
+
     }
 
     @FXML
@@ -409,8 +494,10 @@ public class RegisterController {
         toReturn.add("Title (Year)   ||   Genres   ||   Average Rating");
         toReturn.add("-----------------------------------------------");
 
-        for(Movie m: movieReg.getMovies()) {
-            toReturn.add(m.toString());
+        System.out.println(movieReg.getMovies().size());
+        int i;
+        for(i = (movieReg.getMovies().size() - 1); i > 0; i--) {
+            toReturn.add(movieReg.getMovies().get(i).toString());
             toReturn.add("~*~");
         }
 

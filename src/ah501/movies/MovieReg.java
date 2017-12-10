@@ -89,7 +89,7 @@ public class MovieReg implements Symbols{
 
     // Sorts movies by their names, using a Comparator that looks at the getName() method.
     public void sort() {
-        getMovies().sort(Comparator.comparing(Movie::getName));
+        getMovies().sort(Comparator.comparing(Movie::getAggregateRating));
     }
 
     // Generates the current ratings for the movies in this registry, when the registry is created.
@@ -122,24 +122,29 @@ public class MovieReg implements Symbols{
     }
 
     // A user can delete a movie they have added to the registry so it no longer appears in their UI.
-    public void deleteMovie(int id) {
+        public void deleteMovie(String s) {
+
+        MovieIO.deleteMovie(s);
         Iterator<Movie> movieIterator = getMovies().iterator();
         while(movieIterator.hasNext()){
             Movie next = movieIterator.next();
 
-            if (next.getMovieId() == id) {
+            if (next.getName().equals(s)) {
                 movieIterator.remove();
             }
         }
     }
 
     // A user can delete a rating they have added for a movie so it no longer appears on their UI.
-    public void deleteRating(Rating r) {
+    public void deleteRating(int uid, int mid) {
+
+        MovieIO.deleteRating(uid,mid);
+
         Iterator<Rating> ratingIterator = getRatings().iterator();
         while(ratingIterator.hasNext()){
             Rating next = ratingIterator.next();
 
-            if (next == r) {
+            if (next.getMovieId() == mid && next.getUserId() == uid) {
                 ratingIterator.remove();
             }
         }
